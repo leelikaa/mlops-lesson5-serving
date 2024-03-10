@@ -1,0 +1,6 @@
+[core]
+    remote = s3_mlops
+['remote "s3_mlops"']
+    url = s3://mlops2024-data/lesson5_serving_dvc
+    use_ssl = false
+    endpointurl = http://194.180.188.67:9020
