@@ -39,23 +39,20 @@ if st.button('Predict Quality'):
     # Send the POST request to your FastAPI app
     response = requests.post(f"{FASTAPI_URL}/predict/", json=payload)
     if response.status_code == 200:
-        prediction = response.json()['predicted_quality']
+        prediction = response.json()
         st.success(f'Predicted Wine Quality: {prediction}')
     else:
         st.error('Error in prediction')
 
 # HealthCheck Button
 if st.button('Health Check'):
-    """
-    Обработайте следующие ситуации:
-    1. Сервис доступен, модель загружена и функционирует
-    2. Сервис доступен, но модель не загружена
-    3. Сервис недоступен (requests.exceptions.ConnectionError)
-    4. Все остальные ошибки - st.error с кодом и коротким текстом ошибки
-    """
-    response = requests.get(f"{FASTAPI_URL}/healthcheck")
-
-    if <все хорошо>:
-        st.success("Healthy")
-    else:
-        st.error(<текст ошибки>)
+    try:
+        response = requests.get(f"{FASTAPI_URL}/healthcheck")
+        if response.status_code == 200:
+            st.success("All good")
+        else:
+            st.error("Error: Model is not found")
+    except requests.exceptions.ConnectionError:
+        st.error("Error: Service is unavailable")
+    except Exception as e:
+        st.error(f"Unexpected Error: {str(e)}")
